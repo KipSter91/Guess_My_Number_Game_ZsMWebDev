@@ -1,29 +1,58 @@
 'use strict';
 
-const randomNumber = Math.floor(Math.random() * 21);
+let randomNumber = Math.floor(Math.random() * 21);
+let score = 20;
 console.log(randomNumber);
 
-const checkButton = document.querySelector('.check');
-console.log(checkButton);
+const checkNumber = () => {
+  let myNumber = document.querySelector('.guess').value;
 
-const againButton = document.querySelector('.again');
-console.log(againButton);
+  let currentScore = document
+    .querySelector('.label-score')
+    .querySelector('.score').textContent;
 
-let guessedNumber = document.querySelector('.number').textContent;
-console.log(guessedNumber);
+  if (myNumber < 0 || myNumber > 20) {
+    document.querySelector('.message').textContent = 'Invalid guess!';
+  } else {
+    if (myNumber < randomNumber) {
+      document.querySelector('.message').textContent = 'Too low...';
+      currentScore = currentScore - 1;
+      document
+        .querySelector('.label-score')
+        .querySelector('.score').textContent = currentScore;
+    }
 
-let appMessage = document.querySelector('.message').textContent;
-console.log(appMessage);
+    if (myNumber > randomNumber) {
+      document.querySelector('.message').textContent = 'Too high...';
+      currentScore = currentScore - 1;
+      document
+        .querySelector('.label-score')
+        .querySelector('.score').textContent = currentScore;
+    }
 
-let myNumber = document.querySelector('.guess').value;
-console.log(myNumber);
+    if (myNumber == randomNumber) {
+      document.querySelector('.message').textContent = 'Correct number!';
+      document
+        .querySelector('.label-score')
+        .querySelector('.score').textContent = currentScore;
+      document.querySelector('.number').textContent = randomNumber;
+      document
+        .querySelector('.label-highscore')
+        .querySelector('.highscore').textContent = currentScore;
+      document.querySelector('.check').style.display = 'none';
+      document.body.style.backgroundColor = 'green';
+    }
+  }
+};
 
-let currentScore = document
-  .querySelector('.label-score')
-  .querySelector('.score').textContent;
-console.log(currentScore);
-
-let highScore = document
-  .querySelector('.label-highscore')
-  .querySelector('.highscore').textContent;
-console.log(highScore);
+const playAgain = () => {
+  randomNumber = Math.floor(Math.random() * 21);
+  console.log(randomNumber);
+  document.body.style.backgroundColor = '#222';
+  document.querySelector('.message').textContent = 'Start guessing...';
+  document.querySelector('.check').style.display = 'block';
+  document.querySelector('.number').textContent = '?';
+  document.querySelector('.label-score').querySelector('.score').textContent =
+    score;
+  document.querySelector('.guess').value = '';
+};
